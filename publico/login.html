@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Pet Shop Amigo Animal</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+
+      /* 🐾 Fundo de Pet Shop */
+      background-image: url("https://images.unsplash.com/photo-1601758125946-6ec2ef64c6d7");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Camada suave sobre o fundo */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.5);
+      z-index: 0;
+    }
+
+    /* 🐾 Caixa de login estilizada */
+    .login-box {
+      position: relative;
+      z-index: 1;
+      width: 420px;
+      padding: 50px 40px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      border: 2px solid #ffd166;
+    }
+
+    .login-box h2 {
+      color: #3c3c3c;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 28px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .login-box input[type="submit"],
+    .login-box input[type="button"] {
+      width: 48%;
+      background: #06d6a0;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.3s;
+      font-size: 16px;
+      padding: 12px;
+    }
+
+    .login-box input[type="submit"]:hover,
+    .login-box input[type="button"]:hover {
+      background: #05b88a;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    /* 🐾 Ícone decorativo */
+    .paw-icon {
+      font-size: 40px;
+      color: #ff9f1c;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-box">
+    <div class="paw-icon">🐾</div>
+    <h2>Login - Pet Shop Amigo Animal</h2>
+    <form action="http://localhost:3000/login" method="post" autocomplete="off">
+      <input type="text" id="usuario" name="usuario" placeholder="Usuário" required><br>
+      <input type="password" id="senha" name="senha" placeholder="Senha" required><br>
+
+      <div class="button-group">
+        <input type="submit" value="Entrar">
+        <input type="button" value="Voltar" onclick="history.back()">
+      </div>
+    </form>
+  </div>
+</body>
+</html>

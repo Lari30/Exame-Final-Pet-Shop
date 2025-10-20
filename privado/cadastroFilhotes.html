@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+    rel="stylesheet"
+  >
+  <title>Cadastro de Filhotes - Pet Shop Amigo Animal</title>
+
+  <style>
+    body {
+      background-image: url("https://images.unsplash.com/photo-1601758003122-58e9a60aede9");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 40px;
+      margin-top: 100px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+    }
+
+    h1 {
+      color: #4A3F35;
+      text-align: center;
+      margin-bottom: 30px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background-color: #06d6a0;
+      border-color: #06d6a0;
+    }
+
+    .btn-primary:hover {
+      background-color: #05b88a;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>🐶 Cadastro de Filhotes</h1>
+
+    <form class="row g-3 needs-validation" novalidate>
+      
+      <!-- Espécie -->
+      <div class="col-md-12">
+        <label for="especie" class="form-label">Espécie</label>
+        <select class="form-select" id="especie" name="especie" required>
+          <option selected disabled value="">Selecione a espécie</option>
+          <option>Cachorro</option>
+          <option>Gato</option>
+          <option>Pássaro</option>
+          <option>Peixe</option>
+          <option>Outro</option>
+        </select>
+        <div class="invalid-feedback">
+          Selecione a espécie.
+        </div>
+      </div>
+
+      <!-- Raça -->
+      <div class="col-md-12">
+        <label for="raca" class="form-label">Raça</label>
+        <input type="text" class="form-control" id="raca" name="raca" placeholder="Informe a raça do filhote" required>
+        <div class="invalid-feedback">
+          Informe a raça.
+        </div>
+      </div>
+
+      <!-- Botão -->
+      <div class="col-12 text-center mt-3">
+        <button class="btn btn-primary btn-lg" type="submit">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Validação Bootstrap
+    (() => {
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "exame-final-pet-shop",
+  "version": "1.0.0",
+  "description": "Exame Final de aplicacao NodeJS / HTTP / FULLSTACK / FRONTEND",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lari30/Exame-Final-Pet-Shop.git"
+  },
+  "author": "Larissa Santos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lari30/Exame-Final-Pet-Shop/issues"
+  },
+  "homepage": "https://github.com/Lari30/Exame-Final-Pet-Shop#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.2"
+  }
+}

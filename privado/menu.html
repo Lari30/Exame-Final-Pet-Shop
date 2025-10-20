@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+    rel="stylesheet"
+  >
+  <title>Menu - Pet Shop Amigo Animal</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+      /* 🐾 Fundo Pet Shop */
+      background-image: url("https://images.unsplash.com/photo-1601758125946-6ec2ef64c6d7");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* camada translúcida */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.6);
+      z-index: 0;
+    }
+
+    nav, .container, h1 {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar estilizada */
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #06d6a0 !important;
+      font-size: 1.4rem;
+    }
+
+    .nav-link {
+      color: #333 !important;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: #06d6a0 !important;
+    }
+
+    .dropdown-menu {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+
+    .dropdown-item:hover {
+      background-color: #eafaf4;
+    }
+
+    /* Texto de boas-vindas */
+    h1 {
+      text-align: center;
+      color: #3c3c3c;
+      font-weight: 700;
+      font-size: 2.3rem;
+      margin-top: 100px;
+      background: rgba(255, 255, 255, 0.8);
+      display: inline-block;
+      padding: 20px 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .paw-icon {
+      font-size: 38px;
+      color: #ff9f1c;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <span class="paw-icon">🐾</span>
+      <a class="navbar-brand" href="/menu.html">Pet Shop Amigo Animal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Cadastro
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/CadastroInteressados.html">Interessados</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="cadastroFilhotes.html">Filhotes</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Buscar Filhotes" aria-label="Buscar Filhotes"/>
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+
+        <ul class="navbar-nav ms-3">
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="/logout">Sair</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="text-center mt-5">
+    <h1>Bem-vindo ao Pet Shop Amigo Animal 🐕🐾</h1>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
