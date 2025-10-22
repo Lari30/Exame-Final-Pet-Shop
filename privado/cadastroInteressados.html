@@ -64,9 +64,9 @@
   <div class="container">
     <h1>🐾 Cadastro de Interessados</h1>
 
-    <form class="row g-3 needs-validation" novalidate>
+    <form id="formInteressados" class="row g-3 needs-validation" novalidate>
       
-      <!-- CPF -->
+      
       <div class="col-md-12">
         <label for="cpfInteressado" class="form-label">CPF</label>
         <input type="text" class="form-control" id="cpfInteressado" name="cpfInteressado" placeholder="000.000.000-00" required>
@@ -75,7 +75,7 @@
         </div>
       </div>
 
-      <!-- Nome -->
+      
       <div class="col-md-12">
         <label for="nomeInteressado" class="form-label">Nome Completo</label>
         <input type="text" class="form-control" id="nomeInteressado" name="nomeInteressado" placeholder="Digite seu nome completo" required>
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <!-- Telefone -->
+      
       <div class="col-md-12">
         <label for="telefoneInteressado" class="form-label">Telefone</label>
         <input type="text" class="form-control" id="telefoneInteressado" name="telefoneInteressado" placeholder="(00) 00000-0000" required>
@@ -93,7 +93,7 @@
         </div>
       </div>
 
-      <!-- E-mail -->
+      
       <div class="col-md-12">
         <label for="emailInteressado" class="form-label">E-mail</label>
         <input type="email" class="form-control" id="emailInteressado" name="emailInteressado" placeholder="exemplo@email.com" required>
@@ -102,9 +102,18 @@
         </div>
       </div>
 
-      <!-- Botão -->
+      <div class="col-md-12">
+        <label for="filhoteSelecionado" class="form-label">Selecione um Filhote</label>
+        <select id="filhoteSelecionado" class="form-select" required>
+          <option selected disabled value="">Escolha um filhote...</option>
+        </select>
+        <div class="invalid-feedback">
+          Selecione um filhote.
+        </div>
+      </div>
+      
       <div class="col-12 text-center mt-3">
-        <button class="btn btn-primary btn-lg" type="submit">Cadastrar Interesse</button>
+        <button id="btnCadastrar" class="btn btn-primary btn-lg" type="submit">Cadastrar</button>
       </div>
     </form>
   </div>
@@ -112,21 +121,30 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Validação Bootstrap
-    (() => {
-      'use strict';
-      const forms = document.querySelectorAll('.needs-validation');
-      Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-          if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      });
-    })();
+    
+    
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const resposta = await fetch("http://localhost:4000/filhote"); // Endpoint da sua API
+        const filhotes = await resposta.json();
+
+        const selectFilhote = document.getElementById("filhoteSelecionado");
+        if (filhotes && filhotes.filhotes) {
+          filhotes.filhotes.forEach(f => {
+            const option = document.createElement("option");
+            option.value = f.fi_id;
+            option.textContent = `${f.fi_especie} - ${f.fi_raca}`;
+            selectFilhote.appendChild(option);
+          });
+        }
+      } catch (erro) {
+        console.error("Erro ao carregar filhotes:", erro);
+      }
+    });
   </script>
 
+  
 </body>
+
+<script src="/js/interessados.js"></script>
 </html>
