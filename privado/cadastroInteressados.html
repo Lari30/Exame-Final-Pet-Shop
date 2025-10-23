@@ -107,15 +107,15 @@
         <select id="filhoteSelecionado" class="form-select" required>
           <option selected disabled value="">Escolha um filhote...</option>
         </select>
-        <div class="invalid-feedback">
-          Selecione um filhote.
-        </div>
-      </div>
-      
-      <div class="col-12 text-center mt-3">
+        <div class="invalid-feedback">Selecione um filhote.</div>
+      </div
+
+        <div class="col-12 text-center mt-3">
         <button id="btnCadastrar" class="btn btn-primary btn-lg" type="submit">Cadastrar</button>
       </div>
+      
     </form>
+    <div id="tabela" class="mt-5"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -124,27 +124,35 @@
     
     
     document.addEventListener("DOMContentLoaded", async () => {
-      try {
-        const resposta = await fetch("http://localhost:4000/filhote"); // Endpoint da sua API
-        const filhotes = await resposta.json();
+        try {
+      const resposta = await fetch("http://localhost:4000/filhote");
+      const dados = await resposta.json();
 
-        const selectFilhote = document.getElementById("filhoteSelecionado");
-        if (filhotes && filhotes.filhotes) {
-          filhotes.filhotes.forEach(f => {
-            const option = document.createElement("option");
-            option.value = f.fi_id;
-            option.textContent = `${f.fi_especie} - ${f.fi_raca}`;
-            selectFilhote.appendChild(option);
-          });
-        }
-      } catch (erro) {
-        console.error("Erro ao carregar filhotes:", erro);
-      }
-    });
+      const select = document.getElementById("filhoteSelecionado");
+      select.innerHTML = '<option selected disabled value="">Escolha um filhote...</option>';
+
+    if (dados.status && Array.isArray(dados.filhotes)) {
+      dados.filhotes.forEach(f => {
+        const opt = document.createElement("option");
+        opt.value = f.id; 
+        opt.textContent = `${f.especie} / ${f.raca}`;
+        select.appendChild(opt);
+      });
+    } else {
+      const opt = document.createElement("option");
+      opt.disabled = true;
+      opt.textContent = "Nenhum filhote disponível";
+      select.appendChild(opt);
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar filhotes:", erro);
+    alert("Não foi possível recuperar os filhotes do backend.");
+  }
+});
   </script>
-
+  <script src="./js/interessados.js"></script>
   
 </body>
 
-<script src="/js/interessados.js"></script>
+
 </html>

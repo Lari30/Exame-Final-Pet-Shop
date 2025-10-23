@@ -2,23 +2,59 @@
 const formulario = document.getElementById("formInteressados");
 
 formulario.onsubmit = gravarInteressados;  // atribuir a função gravarInteressados ao evento submit do formulario
-
 document.addEventListener("DOMContentLoaded", () => {
   carregarFilhote();
+  exibirTabelaInteressados();
 });
 
+
 function gravarInteressados(evento){
-    evento.preventDefault();
-    evento.stopPropagation();
+  evento.stopPropagation();
+  evento.preventDefault();
+
+  if(validarFormulario()){
+      const cpf = document.getElementById("cpfInteressado").value;
+      const nomeCompleto = document.getElementById("nomeInteressado").value;
+      const telefone = document.getElementById("telefoneInteressado").value;
+      const email = document.getElementById("emailInteressado").value;
+      const fi_id = parseInt(document.getElementById("filhoteSelecionado").value);
+
+      const interessado = {
+      cpf: cpf,
+      nomeCompleto: nomeCompleto,
+      telefone: telefone,
+      email: email,
+      filhote: { id: fi_id }
+    };
     
 
-    if (validarFormulario()){
-        console.log("Formulário válido.")
-    }
+        fetch("http://localhost:4000/interessado", { 
+        method: "POST",
+        headers : { "Content-Type": "application/json" },
+        body: JSON.stringify(interessado)
+
+        })
+        .then((resposta) => { return resposta.json()})
+        .then((dados) => {
+          if(dados.status) {
+              formulario.reset();
+              exibirTabelaInteressados();
+          }
+          alert(dados.mensagem);
+        })
+        .catch((erro) => {
+            alert("Não foi possível gravar o interessado:" + erro.message);
+        })
+    
+  }
+  
+
 }
 
-function validarFormulario(){
-    const formValidado = formulario.checkValidity();
+  
+ function validarFormulario() {
+
+  const formValidado = formulario.checkValidity();
 
     if(formValidado){
         formulario.classList.remove("was-validated");
@@ -28,39 +64,92 @@ function validarFormulario(){
     }
 
     return formValidado;
+ } 
+    
+
+
+function carregarFilhote() {
+  fetch("http://localhost:4000/filhote", { method: "GET" })
+    .then((resposta) => {
+      if (!resposta.ok) throw new Error("Falha ao conectar com backend");
+      return resposta.json();
+        })
+        .then((dados) => {
+          if(dados.status) {
+            const selectFilhote = document.getElementById("filhoteSelecionado");
+           
+            selectFilhote.innerHTML = '<option selected disabled value="">Escolha um filhote...</option>';
+            
+            for (const f of dados.filhotes) {
+                const option = document.createElement("option");
+                option.value = f.id;
+                option.textContent = `${f.especie} / ${f.raca}`;
+                selectFilhote.appendChild(option);
+          }
+        }
+      })   
+        
+      .catch((erro) => {
+        alert("Não foi possível recuperar os filhotes do backend.\n" + erro.message);
+      });
+
 }
+     
 
-async function carregarFilhote() {
-  try {
-    const resposta = await fetch("http://localhost:4000/filhote");
-    if (!resposta.ok) throw new Error("Falha ao conectar com o backend");
+function exibirTabelaInteressados(){
+  const espacoTabela = document.getElementById('tabela');
+  espacoTabela.innerHTML="";
 
-    const dados = await resposta.json();
-    console.log("📦 Dados recebidos do backend:", dados);
+  
+  fetch("http://localhost:4000/interessado", { method: "GET" })
+  .then(resposta => {
+      if (!resposta.ok) throw new Error("Falha ao consultar interessados");
+      return resposta.json();
+    })
+  .then((dados) => {
+    if(dados.status && Array.isArray(dados.interessados)){
+      const tabela = document.createElement('table');
+      tabela.className = 'table table-striped table-hover';
 
-    const selectFilhote = document.getElementById("filhoteSelecionado");
+      tabela.innerHTML = `
+      <thead class="table-success">
+            <tr>
+              <th>CPF</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Filhote</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      `;
+      
 
-    // 🔹 Limpa o select antes de preencher (remove opções antigas)
-    selectFilhote.innerHTML = '<option selected disabled value="">Escolha um filhote...</option>';
-
-    const lista = dados.filhotes || [];
-
-    if (lista.length > 0) {
-      for (const filhote of lista) {
-        const option = document.createElement("option");
-        option.value = filhote.id;
-        option.textContent = `${filhote.especie} / ${filhote.raca}`;
-        selectFilhote.appendChild(option);
+      const corpoTabela = document.createElement('tbody');
+      
+      for(const i of dados.interessados){
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+        <td>${i.cpf}</td>
+        <td>${i.nomeCompleto}</td>
+        <td>${i.telefone}</td>
+        <td>${i.email}</td>
+        <td>${i.filhote?.especie || "Sem filhote"} / ${i.filhote?.raca || ""}</td>
+        `;
+        corpoTabela.appendChild(linha);
+       
       }
-    } else {
-      const option = document.createElement("option");
-      option.disabled = true;
-      option.textContent = "Nenhum filhote disponível";
-      selectFilhote.appendChild(option);
+      espacoTabela.appendChild(tabela);
+    } else{
+      espacoTabela.innerHTML = `<p class="text-danger text-center">Nenhum interessado encontrado.</p>`;
     }
-  } catch (erro) {
-    console.error("❌ Erro ao carregar filhotes:", erro);
-    alert("Não foi possível recuperar os filhotes do backend.\n" + erro.message);
-  }
-}
 
+  })
+  .catch(erro => {
+    alert("Erro ao consultar interessados: " + erro.message);
+  });  
+
+      
+   
+}
