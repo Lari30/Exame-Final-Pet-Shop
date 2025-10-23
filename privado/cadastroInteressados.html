@@ -30,13 +30,17 @@
     .container {
       position: relative;
       z-index: 1;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.97);
       border-radius: 12px;
-      padding: 40px;
-      margin-top: 100px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      max-width: 600px;
+      padding: 50px 80px;
+      margin: 40px auto;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      width: 95%;
+      max-width: 1200px;
+      min-height: 90vh;
     }
+
+    
 
     h1 {
       color: #4A3F35;
@@ -57,6 +61,34 @@
     .btn-primary:hover {
       background-color: #05b88a;
     }
+
+    
+    #tabela {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    #tabela table {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    #tabela th {
+      background-color: #06d6a0;
+      color: white;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    #tabela td {
+      vertical-align: middle;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -66,40 +98,28 @@
 
     <form id="formInteressados" class="row g-3 needs-validation" novalidate>
       
-      
       <div class="col-md-12">
         <label for="cpfInteressado" class="form-label">CPF</label>
         <input type="text" class="form-control" id="cpfInteressado" name="cpfInteressado" placeholder="000.000.000-00" required>
-        <div class="invalid-feedback">
-          Informe um CPF válido.
-        </div>
+        <div class="invalid-feedback">Informe um CPF válido.</div>
       </div>
 
-      
       <div class="col-md-12">
         <label for="nomeInteressado" class="form-label">Nome Completo</label>
         <input type="text" class="form-control" id="nomeInteressado" name="nomeInteressado" placeholder="Digite seu nome completo" required>
-        <div class="invalid-feedback">
-          Informe o nome completo.
-        </div>
+        <div class="invalid-feedback">Informe o nome completo.</div>
       </div>
 
-      
       <div class="col-md-12">
         <label for="telefoneInteressado" class="form-label">Telefone</label>
         <input type="text" class="form-control" id="telefoneInteressado" name="telefoneInteressado" placeholder="(00) 00000-0000" required>
-        <div class="invalid-feedback">
-          Informe um telefone válido.
-        </div>
+        <div class="invalid-feedback">Informe um telefone válido.</div>
       </div>
 
-      
       <div class="col-md-12">
         <label for="emailInteressado" class="form-label">E-mail</label>
         <input type="email" class="form-control" id="emailInteressado" name="emailInteressado" placeholder="exemplo@email.com" required>
-        <div class="invalid-feedback">
-          Informe um e-mail válido.
-        </div>
+        <div class="invalid-feedback">Informe um e-mail válido.</div>
       </div>
 
       <div class="col-md-12">
@@ -108,51 +128,48 @@
           <option selected disabled value="">Escolha um filhote...</option>
         </select>
         <div class="invalid-feedback">Selecione um filhote.</div>
-      </div
+      </div>
 
-        <div class="col-12 text-center mt-3">
+      <div class="col-12 text-center mt-3">
         <button id="btnCadastrar" class="btn btn-primary btn-lg" type="submit">Cadastrar</button>
       </div>
-      
     </form>
+
+    
     <div id="tabela" class="mt-5"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    
-    
     document.addEventListener("DOMContentLoaded", async () => {
-        try {
-      const resposta = await fetch("http://localhost:4000/filhote");
-      const dados = await resposta.json();
+      try {
+        const resposta = await fetch("http://localhost:4000/filhote");
+        const dados = await resposta.json();
 
-      const select = document.getElementById("filhoteSelecionado");
-      select.innerHTML = '<option selected disabled value="">Escolha um filhote...</option>';
+        const select = document.getElementById("filhoteSelecionado");
+        select.innerHTML = '<option selected disabled value="">Escolha um filhote...</option>';
 
-    if (dados.status && Array.isArray(dados.filhotes)) {
-      dados.filhotes.forEach(f => {
-        const opt = document.createElement("option");
-        opt.value = f.id; 
-        opt.textContent = `${f.especie} / ${f.raca}`;
-        select.appendChild(opt);
-      });
-    } else {
-      const opt = document.createElement("option");
-      opt.disabled = true;
-      opt.textContent = "Nenhum filhote disponível";
-      select.appendChild(opt);
-    }
-  } catch (erro) {
-    console.error("Erro ao carregar filhotes:", erro);
-    alert("Não foi possível recuperar os filhotes do backend.");
-  }
-});
+        if (dados.status && Array.isArray(dados.filhotes)) {
+          dados.filhotes.forEach(f => {
+            const opt = document.createElement("option");
+            opt.value = f.id; 
+            opt.textContent = `${f.especie} / ${f.raca}`;
+            select.appendChild(opt);
+          });
+        } else {
+          const opt = document.createElement("option");
+          opt.disabled = true;
+          opt.textContent = "Nenhum filhote disponível";
+          select.appendChild(opt);
+        }
+      } catch (erro) {
+        console.error("Erro ao carregar filhotes:", erro);
+        alert("Não foi possível recuperar os filhotes do backend.");
+      }
+    });
   </script>
+
   <script src="./js/interessados.js"></script>
-  
 </body>
-
-
 </html>

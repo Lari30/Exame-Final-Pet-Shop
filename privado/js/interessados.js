@@ -106,25 +106,26 @@ function exibirTabelaInteressados(){
       if (!resposta.ok) throw new Error("Falha ao consultar interessados");
       return resposta.json();
     })
-  .then((dados) => {
-    if(dados.status && Array.isArray(dados.interessados)){
-      const tabela = document.createElement('table');
-      tabela.className = 'table table-striped table-hover';
+    .then((dados) => {
+      if(dados.status && Array.isArray(dados.interessados)){
+        const tabela = document.createElement('table');
+        tabela.className = 'table table-striped table-hover';
 
-      tabela.innerHTML = `
-      <thead class="table-success">
-            <tr>
-              <th>CPF</th>
-              <th>Nome</th>
-              <th>Telefone</th>
-              <th>Email</th>
-              <th>Filhote</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-      `;
-      
+        tabela.innerHTML = `
+        <thead class="table-success">
+              <tr>
+                <th>CPF</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Filhote</th>
+                <th class="text-center">Ações</th>
+                
+              </tr>
+            </thead>
+            
+        `;
+        
 
       const corpoTabela = document.createElement('tbody');
       
@@ -135,21 +136,57 @@ function exibirTabelaInteressados(){
         <td>${i.nomeCompleto}</td>
         <td>${i.telefone}</td>
         <td>${i.email}</td>
-        <td>${i.filhote?.especie || "Sem filhote"} / ${i.filhote?.raca || ""}</td>
-        `;
+        <td>${i.filhote?.especie || "Sem filhote"} ${i.filhote?.raca? " / " + i.filhote.raca : ""}</td>
+        <td class="text-center">
+              <button class="btn btn-warning btn-sm me-2" onclick="editarInteressado('${i.cpf}')"></button>
+              <button class="btn btn-danger btn-sm" onclick="excluirInteressado('${i.cpf}')"></button>
+            </td>
+          `;
+        
         corpoTabela.appendChild(linha);
        
       }
-      espacoTabela.appendChild(tabela);
-    } else{
-      espacoTabela.innerHTML = `<p class="text-danger text-center">Nenhum interessado encontrado.</p>`;
-    }
 
-  })
-  .catch(erro => {
-    alert("Erro ao consultar interessados: " + erro.message);
-  });  
+        tabela.appendChild(corpoTabela);
+        espacoTabela.appendChild(tabela);
+      } else {
+        espacoTabela.innerHTML = `<p class="text-danger text-center">Nenhum interessado encontrado.</p>`;
+      }
+    })
+    .catch(erro => {
+      alert("Erro ao consultar interessados: " + erro.message);
+    });
 
-      
-   
+    
+function excluirInteressado(cpf) {
+  if (confirm("Deseja realmente excluir este interessado?")) {
+    fetch(`http://localhost:4000/interessado/${cpf}`, { method: "DELETE" })
+      .then(res => res.json())
+      .then(dados => {
+        alert(dados.mensagem);
+        exibirTabelaInteressados(); // Recarrega a lista após exclusão
+      })
+      .catch(erro => alert("Erro ao excluir interessado: " + erro.message));
+  }
+}
+
+
+function editarInteressado(cpf) {
+  fetch(`http://localhost:4000/interessado/${cpf}`)
+    .then(res => res.json())
+    .then(dados => {
+      if (dados.status && dados.interessados.length > 0) {
+        const i = dados.interessados[0];
+        document.getElementById("cpfInteressado").value = i.cpf;
+        document.getElementById("nomeInteressado").value = i.nomeCompleto;
+        document.getElementById("telefoneInteressado").value = i.telefone;
+        document.getElementById("emailInteressado").value = i.email;
+        document.getElementById("filhoteSelecionado").value = i.filhote?.id || "";
+      } else {
+        alert("Interessado não encontrado.");
+      }
+    })
+    .catch(erro => alert("Erro ao carregar interessado para edição: " + erro.message));
+}
+
 }
