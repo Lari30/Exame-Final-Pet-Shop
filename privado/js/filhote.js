@@ -1,19 +1,17 @@
 const formulario = document.getElementById("formFilhotes");
 
-// 🔹 Quando a página carregar
+
 document.addEventListener("DOMContentLoaded", () => {
   exibirTabelaFilhotes();
 
-  // 🔹 Garante que os botões comecem desabilitados
+  
   document.getElementById("atualizar").disabled = true;
   document.getElementById("excluir").disabled = true;
 });
 
 formulario.onsubmit = gravarFilhote;
 
-// ======================================================
-// CADASTRAR FILHOTE
-// ======================================================
+
 function gravarFilhote(evento) {
   evento.preventDefault();
 
@@ -34,7 +32,7 @@ function gravarFilhote(evento) {
         if (dados.status) {
           formulario.reset();
           exibirTabelaFilhotes();
-          // 🔹 volta ao modo padrão
+          
           resetarBotoes();
         }
       })
@@ -46,9 +44,7 @@ function gravarFilhote(evento) {
   evento.stopPropagation();
 }
 
-// ======================================================
-// VALIDAR FORMULÁRIO
-// ======================================================
+
 function validarFormulario() {
   const formValidado = formulario.checkValidity();
 
@@ -61,9 +57,7 @@ function validarFormulario() {
   return formValidado;
 }
 
-// ======================================================
-// EXIBIR TABELA DE FILHOTES
-// ======================================================
+
 function exibirTabelaFilhotes() {
   const espacoTabela = document.getElementById("tabela");
   espacoTabela.innerHTML = "";
@@ -120,9 +114,7 @@ function exibirTabelaFilhotes() {
     });
 }
 
-// ======================================================
-// EDITAR FILHOTE
-// ======================================================
+
 function editarFilhote(id) {
   fetch(`http://localhost:4000/filhote/${id}`)
     .then((res) => res.json())
@@ -133,7 +125,7 @@ function editarFilhote(id) {
         document.getElementById("especie").value = f.especie;
         document.getElementById("raca").value = f.raca;
 
-        // ✅ Habilita Atualizar e Excluir, desabilita Cadastrar
+       
         document.getElementById("cadastrar").disabled = true;
         document.getElementById("atualizar").disabled = false;
         document.getElementById("excluir").disabled = false;
@@ -144,9 +136,7 @@ function editarFilhote(id) {
     .catch((erro) => alert("Erro ao carregar filhote: " + erro.message));
 }
 
-// ======================================================
-// ATUALIZAR FILHOTE
-// ======================================================
+
 function atualizarFilhote() {
   const id = document.getElementById("idFilhote").value;
   const especie = document.getElementById("especie").value;
@@ -166,16 +156,14 @@ function atualizarFilhote() {
         formulario.reset();
         document.getElementById("idFilhote").value = "";
         exibirTabelaFilhotes();
-        // 🔹 volta ao modo padrão
+        
         resetarBotoes();
       }
     })
     .catch((erro) => alert("Erro ao atualizar filhote: " + erro.message));
 }
 
-// ======================================================
-// EXCLUIR FILHOTE
-// ======================================================
+
 function excluirFilhote(id) {
   if (confirm(`Deseja realmente excluir o filhote ID: ${id}?`)) {
     fetch(`http://localhost:4000/filhote/${id}`, { method: "DELETE" })
@@ -185,16 +173,14 @@ function excluirFilhote(id) {
         formulario.reset();
         document.getElementById("idFilhote").value = "";
         exibirTabelaFilhotes();
-        // 🔹 volta ao modo padrão
+       
         resetarBotoes();
       })
       .catch((erro) => alert("Erro ao excluir filhote: " + erro.message));
   }
 }
 
-// ======================================================
-// 🔹 Função utilitária para resetar botões
-// ======================================================
+
 function resetarBotoes() {
   document.getElementById("cadastrar").disabled = false;
   document.getElementById("atualizar").disabled = true;
